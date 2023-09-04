@@ -3,7 +3,7 @@ import game_engine
 import pygame as pg
 def generate_pipe():
     color = "black"
-    hole_height = 50
+    hole_height = 100
     pos = pg.Vector2(550,0)
     top_pipe_height = random.randint(25,499-hole_height -25)
     bottom_pipe_height = 499 - top_pipe_height - hole_height
@@ -18,7 +18,7 @@ def draw_and_move_pipes(pipes,screen):
     for i in pipes:
         for pipe in i:
             pg.draw.rect(screen,"black",pipe)
-            pipe.topleft = (pipe.topleft[0] - 5,pipe.topleft[1])
-            pipe.bottomright = (pipe.bottomright[0] - 5,pipe.bottomright[1])
+            pipe.topleft = (pipe.topleft[0] - 1,pipe.topleft[1])
+            pipe.bottomright = (pipe.bottomright[0] - 1,pipe.bottomright[1])
 
             
