@@ -20,5 +20,7 @@ def draw_and_move_pipes(pipes,screen):
             pg.draw.rect(screen,"black",pipe)
             pipe.topleft = (pipe.topleft[0] - 1,pipe.topleft[1])
             pipe.bottomright = (pipe.bottomright[0] - 1,pipe.bottomright[1])
+            if pipe.topleft[0] < 0:
+                del pipe
 
             

@@ -10,7 +10,6 @@ def draw_bird(screen):
     global side_length
     global position
     global acceleration
-    
     global speed
     
     events = pg.event.get()
@@ -30,3 +29,6 @@ def draw_bird(screen):
 
 
     pg.draw.rect(screen,"red",pg.Rect(position,pg.Vector2(side_length,side_length)))
+
+
+    
