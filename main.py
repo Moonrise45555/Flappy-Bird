@@ -34,18 +34,19 @@ def pipes_to_holes(pipes):
     return deepcopy(holes)
     
 def inside(candidate,topleft,bottomright):
-
+    
     if candidate.x > topleft[0] and candidate.x < bottomright[0]:
-        print("currently inside a pipe")
-        if not (candidate.y < topleft[1] and candidate.y > bottomright[1]):
+        
+        if candidate.y > topleft[1] and candidate.y < bottomright[1]:
             
             return True
     return False
-        
+     
 
         
         
 while game_over == False:
+    
     sleep(FRAMELENGTH)
     
     timer += 1
@@ -53,6 +54,18 @@ while game_over == False:
     for pair in pipes:
         for pipea in pair:
             if inside(flappy.position,pipea.topleft,pipea.bottomright):
+                game_over = True
+    for pair in pipes:
+        for pipea in pair:
+            if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
+                game_over = True
+    for pair in pipes:
+        for pipea in pair:
+            if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y),pipea.topleft,pipea.bottomright):
+                game_over = True
+    for pair in pipes:
+        for pipea in pair:
+            if inside(pg.Vector2(flappy.position.x,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
                 game_over = True
 
 
