@@ -6,16 +6,17 @@ import game_engine
 from pygame.locals import *
 from time import sleep
 import flappy
+import screens as screens
 window_width = 600
 window_height = 499
 pipes = []
+
 window = pg.display.set_mode((window_width, window_height))
 FRAMELENGTH = 1/60
 pg.init()
 timer = 0
 Spawndelay = 180
 
-game_over = False
 def Game_over():
     print("game over")
     pg.quit()
@@ -42,47 +43,79 @@ def inside(candidate,topleft,bottomright):
             return True
     return False
      
+game_state = "start_menu"
 
+game_over = False
         
         
-while game_over == False:
+while True:
+    for event in pg.event.get():
+       if event.type == pg.QUIT:
+           pg.quit()
+           quit()
+    if game_state == "start_menu":
+       screens.draw_start_menu(window,window_height,window_width)
+       keys = pg.key.get_pressed()
+       if keys[pg.K_SPACE]:
+           pipes = []
+           timer = 0
+           game_state = "game"
+           game_over = False
+    elif game_state == "game_over":
+       screens.draw_game_over_screen(window,window_height,window_width)
+       keys = pg.key.get_pressed()
+       if keys[pg.K_r]:
+           game_state = "start_menu"
+       if keys[pg.K_q]:
+           pg.quit()
+           quit()
+  
+    elif game_state == "game":
+        sleep(FRAMELENGTH)
+        
+        window.fill("white")
+        flappy.draw_bird(window)
     
-    sleep(FRAMELENGTH)
+        if timer == Spawndelay:
+            pipes.append(pipe.generate_pipe())
+            timer = 0
+        
+        pipe.draw_and_move_pipes(pipes,window)
+        pg.display.flip()
+        timer += 1
+
+        #collision code
+        for pair in pipes:
+            for pipea in pair:
+                if inside(flappy.position,pipea.topleft,pipea.bottomright):
+                    game_over = True
+                    game_state = "game_over"
+        for pair in pipes:
+            for pipea in pair:
+                if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
+                    game_over = True
+                    game_state = "game_over"
+        for pair in pipes:
+            for pipea in pair:
+                if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y),pipea.topleft,pipea.bottomright):
+                    game_over = True
+                    game_state = "game_over"
+        for pair in pipes:
+            for pipea in pair:
+                if inside(pg.Vector2(flappy.position.x,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
+                    game_over = True
+                    game_state = "game_over"
+        #collision code
+        
+        """window.fill("white")
+        flappy.draw_bird(window)
     
-    timer += 1
-    #collision ocde
-    for pair in pipes:
-        for pipea in pair:
-            if inside(flappy.position,pipea.topleft,pipea.bottomright):
-                game_over = True
-    for pair in pipes:
-        for pipea in pair:
-            if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
-                game_over = True
-    for pair in pipes:
-        for pipea in pair:
-            if inside(pg.Vector2(flappy.position.x + flappy.side_length,flappy.position.y),pipea.topleft,pipea.bottomright):
-                game_over = True
-    for pair in pipes:
-        for pipea in pair:
-            if inside(pg.Vector2(flappy.position.x,flappy.position.y + flappy.side_length),pipea.topleft,pipea.bottomright):
-                game_over = True
-
-
-
-
-
-    #collision code
-    
-    window.fill("white")
-    flappy.draw_bird(window)
-   
-    if timer == Spawndelay:
-        pipes.append(pipe.generate_pipe())
-        timer = 0
-    
-    pipe.draw_and_move_pipes(pipes,window)
-    pg.display.flip()
+        if timer == Spawndelay:
+            pipes.append(pipe.generate_pipe())
+            timer = 0
+        
+        pipe.draw_and_move_pipes(pipes,window)
+        pg.display.flip()"""
 
 
 

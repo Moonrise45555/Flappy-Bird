@@ -15,7 +15,7 @@ def draw_bird(screen):
     events = pg.event.get()
     for event in events:
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_UP:
+            if event.key == pg.K_SPACE:
 
                 speed = -4
         if event.type == pg.QUIT:
