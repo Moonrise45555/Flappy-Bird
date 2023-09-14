@@ -13,14 +13,23 @@ def generate_pipe():
     
     return [top_rectangle,bottom_rectangle]
     
-
+score = 0
 def draw_and_move_pipes(pipes,screen):
+    global score
+    pg.font.init()
     for i in pipes:
         for pipe in i:
             pg.draw.rect(screen,"black",pipe)
             pipe.topleft = (pipe.topleft[0] - 1,pipe.topleft[1])
             pipe.bottomright = (pipe.bottomright[0] - 1,pipe.bottomright[1])
-            if pipe.topleft[0] < 0:
-                del pipe
+            
 
+        if pipe.bottomright[0] < 0:
+                score += 1
+                my_font = pg.font.SysFont('Monospace', 30)
+                text_surface = my_font.render(str(score), False, (220, 0, 0))
+                screen.blit(text_surface, (300,0))
+
+                del pipes[0]
+                
             

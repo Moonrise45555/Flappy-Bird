@@ -69,6 +69,7 @@ while True:
            game_state = "game"
            game_over = False
     elif game_state == "game_over":
+       pipe.score = 0
        screens.draw_game_over_screen(window,window_height,window_width)
        keys = pg.key.get_pressed()
        if keys[pg.K_r]:
@@ -86,8 +87,11 @@ while True:
         if timer == Spawndelay:
             pipes.append(pipe.generate_pipe())
             timer = 0
-        
         pipe.draw_and_move_pipes(pipes,window)
+        my_font = pg.font.SysFont('Monospace', 30)
+        text_surface = my_font.render(str(pipe.score), False, (220, 0, 0))
+        window.blit(text_surface, (300,0))
+        
         pg.display.flip()
         timer += 1
 
