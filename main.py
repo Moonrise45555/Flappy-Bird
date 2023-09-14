@@ -7,6 +7,7 @@ from pygame.locals import *
 from time import sleep
 import flappy
 import screens as screens
+
 window_width = 600
 window_height = 499
 pipes = []
@@ -14,6 +15,12 @@ pipes = []
 window = pg.display.set_mode((window_width, window_height))
 FRAMELENGTH = 1/60
 pg.init()
+
+
+pg.mixer.music.load('sound.mp3')
+pg.mixer.music.play(-1,0.0)
+
+
 timer = 0
 Spawndelay = 180
 
